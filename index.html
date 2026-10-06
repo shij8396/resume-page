@@ -877,7 +877,7 @@ body.menu-open { overflow: hidden; }
           <span class="chip">Go</span><span class="chip">Gin</span><span class="chip">GORM</span><span class="chip">MySQL</span><span class="chip">Redis</span><span class="chip">RabbitMQ</span><span class="chip">Kafka</span><span class="chip">Sentinel</span><span class="chip">Docker</span>
         </div>
         <p class="card-desc">针对单机秒杀系统数据库雪崩、超卖、恶意刷单、流量突刺、故障难定位等痛点，基于 Go 搭建六层分布式高并发秒杀架构，支撑万级 QPS 瞬时流量，全组件容器化一键部署。</p>
-        <a class="card-link" href="https://github.com/shij8396/desktop-agent" target="_blank" rel="noopener">开源地址 · github.com/shij8396/desktop-agent</a>
+        <a class="card-link" href="https://github.com/shij8396/miaosha" target="_blank" rel="noopener">开源地址 · github.com/shij8396/miaosha</a>
         <ul class="card-list">
           <li>负责秒杀核心交易链路设计，将请求拆分为限流鉴权 → <span class="kw">Redis 预扣库存</span> → <span class="kw">MQ 异步下单</span> → 订单落库；通过 <span class="kw">Redis Lua 脚本</span>将库存校验、扣减及一人一单校验合并为原子操作，解决并发下的超卖与重复下单问题。</li>
           <li>基于 <span class="kw">RabbitMQ</span> 实现订单异步化与流量削峰，消费端采用手动 ACK、异常重试与幂等校验机制，隔离秒杀流量对 MySQL 的瞬时写入压力，保障高峰期核心链路可用。</li>
@@ -898,12 +898,33 @@ body.menu-open { overflow: hidden; }
           <span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">LangChain</span><span class="chip">OpenAI API</span><span class="chip">Redis</span><span class="chip">React</span><span class="chip">Docker</span>
         </div>
         <p class="card-desc">通用大模型缺少私有行业知识、复杂多步骤任务需人工拆分、多用户并发问答存在大量重复检索损耗，基于 LangChain 构建可自主调用工具的 Agent 智能平台，支持企业私有文档问答与任务自动化。</p>
-        <a class="card-link" href="https://github.com/shij8396/miaosha" target="_blank" rel="noopener">开源地址 · github.com/shij8396/miaosha</a>
+        <a class="card-link" href="https://github.com/shij8396/desktop-agent" target="_blank" rel="noopener">开源地址 · github.com/shij8396/desktop-agent</a>
         <ul class="card-list">
           <li>负责私有知识库问答链路建设，完成文档解析、Chunk 分块、<span class="kw">Embedding 向量化</span>、向量检索及 Prompt 拼装，构建 <span class="kw">RAG（检索增强生成）Pipeline</span>，降低大模型无依据生成的概率。</li>
           <li>基于 <span class="kw">LangChain / Tool Calling</span> 封装知识检索、任务查询等工具，将用户意图识别、工具选择和结果回填编排为 Agent 执行流程，支持多步骤任务处理。</li>
           <li>设计会话上下文管理机制：使用 <span class="kw">Redis 存储</span>会话状态、历史消息与热点检索结果，结合 TTL 与上下文截断策略控制 Token 消耗，提升多轮对话的连续性和响应效率。</li>
           <li>基于 <span class="kw">FastAPI + SSE</span> 实现大模型流式输出；补充模型调用超时、检索为空、上下文超长等异常兜底，并记录调用链路日志，提升问答服务的可观测性与稳定性。</li>
+        </ul>
+      </div>
+
+      <div class="card appear appear--soft" style="--d:0.40s">
+        <div class="card-top">
+          <div>
+            <div class="card-title">英语四级学习与数据分析平台</div>
+            <div class="card-sub">Python 后端 · 学习行为分析 · 复习管理</div>
+          </div>
+          <div class="card-date">持续开发</div>
+        </div>
+        <div class="chips">
+          <span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">SQLAlchemy</span><span class="chip">MySQL</span><span class="chip">Redis</span><span class="chip">JWT</span><span class="chip">Next.js</span><span class="chip">Docker</span><span class="chip">Pytest</span>
+        </div>
+        <p class="card-desc">针对四级备考中学习记录分散、错词难追踪和每日任务缺少数据反馈的问题，基于 Python + FastAPI 构建前后端分离学习平台，打通单词复习、签到、作文记录与学习统计，形成学习行为记录到任务反馈的数据链路。</p>
+        <a class="card-link" href="https://github.com/shij8396/cet4-ai-learning" target="_blank" rel="noopener">开源地址 · github.com/shij8396/cet4-ai-learning</a>
+        <ul class="card-list">
+          <li>基于 <span class="kw">FastAPI + Pydantic</span> 设计 RESTful 接口，使用 <span class="kw">SQLAlchemy + Alembic</span> 完成用户、词库、复习进度、签到和作文记录的数据建模；结合 JWT 鉴权与 Redis Token 黑名单实现登录和退出失效。</li>
+          <li>针对重复签到造成经验值重复发放的问题，设计 <span class="kw">用户与日期联合唯一约束 + 数据库事务</span>，实现签到幂等、连续天数计算和奖励单次发放。</li>
+          <li>围绕学习行为数据，按用户和日期聚合复习次数、作文数量与签到经验，生成 <span class="kw">学习趋势和今日任务进度</span>；结合错词次数与掌握度排序薄弱项，支持处理归档和复习记录追踪。</li>
+          <li>完成作文保存、历史查询与删除，补充 <span class="kw">Pytest 接口回归测试</span> 和前端自动化检查，覆盖重复签到、薄弱项处理与作文记录流程，并验证空库迁移和 Docker 部署配置。</li>
         </ul>
       </div>
     </section>
